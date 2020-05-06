@@ -4,14 +4,17 @@
     'Use correct element query executors (fix deprecated code).',
 ] %}
 
-{% set entryQuery = craft.entries.section('articles').orderBy('order asc').limit(10) %}
+{% set limit = craft.app.request.getParam('limit') ?? 10 %}
+{% set entryQuery = craft.entries.section('articles')
+    .orderBy('order asc').limit(limit)
+%}
 
 
 {% block content %}
 
     {% if entryQuery.count() %}
         <ul>
-            {% for entry in entryQuery.all() %}
+            {% for entry in entryQuery.limit(limit).all() %}
                 <li>
                     {{ entry.title }}
                 </li>
@@ -19,4 +22,25 @@
         </ul>
     {% endif %}
 
+    <p>
+        <small>
+            Displaying {{ entryQuery.limit(limit).count() }} of {{ entryQuery.count() }} entries.
+        </small>
+    </p>
+
 {% endblock %}
+
+
+{% set code = "
+{% set entryQuery = craft.entries.section('articles')
+    .orderBy('order asc').limit(limit)
+%}
+
+{% if entryQuery.count() %}
+    {% for entry in entryQuery.all() %}
+        {{ entry.title }}
+    {% endfor %}
+{% endif %}
+
+Displaying {{ entryQuery.count() }} of {{ entryQuery.count() }}.
+" %}

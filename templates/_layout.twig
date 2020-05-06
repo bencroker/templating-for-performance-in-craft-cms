@@ -60,6 +60,10 @@
             text-decoration: underline;
         }
 
+        .float-right {
+            float: right;
+        }
+
         .go {
             color: #0B69A3;
         }
@@ -70,11 +74,14 @@
             text-decoration: none !important;
         }
 
-        .step {
-            font-size: 1.5em;
-    position: relative;
-    top: -30px;
-    left: -28px;
+        .go.back:after {
+            content: '←';
+            color: #e0e4e8;
+        }
+
+
+        .go:hover {
+            text-decoration: none !important;
         }
 
         .notes {
@@ -102,14 +109,13 @@
         }
 
         #aside {
-            background: hsl(212, 60%, 97%);
+            background: #2d2d2d;
         }
 
         .content {
-            width: 700px;
             padding: 35px;
-            padding-left: calc(35px + env(safe-area-inset-left));
-            padding-right: calc(35px + env(safe-area-inset-right));
+            padding-left: calc(25px + env(safe-area-inset-left));
+            padding-right: calc(25px + env(safe-area-inset-right));
         }
 
         @media (min-width:768px) {
@@ -146,8 +152,8 @@
 
             #modal {
                 height: 100%;
-                max-width: 800px;
-                max-height: 525px;
+                width: 1200px;
+                max-height: 600px;
                 border-radius: 4px;
                 overflow: auto;
                 box-shadow: 0 25px 100px rgba(0, 0, 0, 0.5);
@@ -159,14 +165,27 @@
         }
 
     </style>
+
+    <link rel="stylesheet" href="/assets/css/prism.css">
 </head>
 <body class="ltr">
 <div id="container">
     <div id="modal">
-        <div id="">
+        <div id="main">
             <div class="content">
 
-                <h1>{{ craft.app.request.segment(2) }}.</h1>
+                <h1>
+                    {% set step = craft.app.request.segment(2) %}
+                    {{ step }}.
+                    <div class="float-right">
+                        {% if step > 0 %}
+                            <a href="{{ step - 1 }}" class="go back"></a>
+                        {% endif %}
+                        {% if step < 10 %}
+                            <a href="{{ step + 1 }}" class="go"></a>
+                        {% endif %}
+                    </div>
+                </h1>
 
                 <div class="notes">
                     {{ notes is defined ? notes|join('<br>')|md }}
@@ -176,7 +195,19 @@
 
             </div>
         </div>
+        <div id="aside">
+
+            <pre><code class="language-twig">
+                {%- if code is defined -%}
+                    {{ code|replace({'    ': '  '}) }}
+                {%- endif -%}
+            </code></pre>
+
+        </div>
     </div>
 </div>
+
+<script src="/assets/js/prism.js"></script>
+
 </body>
 </html>

@@ -3,14 +3,17 @@
     'Output entries (using deprecated code).',
 ] %}
 
-{% set entries = craft.entries.section('articles').orderBy('order asc').limit(10) %}
+{% set limit = craft.app.request.getParam('limit') ?? 10 %}
+{% set entryQuery = craft.entries.section('articles')
+    .orderBy('order asc').limit(limit)
+%}
 
 
 {% block content %}
 
-    {% if entries|length %}
+    {% if entryQuery|length %}
         <ul>
-            {% for entry in entries %}
+            {% for entry in entryQuery %}
                 <li>
                     {{ entry.title }}
                 </li>
@@ -18,4 +21,29 @@
         </ul>
     {% endif %}
 
+    <p>
+        <small>
+            Displaying {{ entryQuery|length }} entries.
+        </small>
+    </p>
+
 {% endblock %}
+
+
+{% set code = "
+{% set entryQuery = craft.entries.section('articles')
+    .orderBy('order asc').limit(limit)
+%}
+
+{% if entryQuery|length %}
+    <ul>
+        {% for entry in entryQuery %}
+            <li>
+                {{ entry.title }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+Displaying {{ entryQuery|length }} entries.
+" %}

@@ -1,10 +1,13 @@
 {% extends '_layout' %}
 {% set notes = [
     'Memoize `entries`.',
-    'Remove `.count()`.',
+    'Remove `.count()` and fix number of displayed entries.',
 ] %}
 
-{% set entryQuery = craft.entries.section('articles').orderBy('order asc').limit(10) %}
+{% set limit = craft.app.request.getParam('limit') ?? 10 %}
+{% set entryQuery = craft.entries.section('articles')
+    .orderBy('order asc').limit(limit)
+%}
 {% set entries = entryQuery.all() %}
 
 
@@ -20,4 +23,26 @@
         </ul>
     {% endif %}
 
+    <p>
+        <small>
+            Displaying {{ entries|length }} of {{ entryQuery.count() }}.
+        </small>
+    </p>
+
 {% endblock %}
+
+
+{% set code = "
+{% set entryQuery = craft.entries.section('articles')
+    .orderBy('order asc').limit(limit)
+%}
+{% set entries = entryQuery.all() %}
+
+{% if entries|length %}
+    {% for entry in entries %}
+        {{ entry.title }}
+    {% endfor %}
+{% endif %}
+
+Displaying {{ entries|length }} of {{ entryQuery.count() }}.
+" %}
