@@ -1,0 +1,22 @@
+{% extends '_layout' %}
+{% set notes = [
+    'Rename `entries` to `entryQuery`.',
+    'Use correct element query executors (fix deprecated code).',
+] %}
+
+{% set entryQuery = craft.entries.section('articles').orderBy('order asc').limit(10) %}
+
+
+{% block content %}
+
+    {% if entryQuery.count() %}
+        <ul>
+            {% for entry in entryQuery.all() %}
+                <li>
+                    {{ entry.title }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}

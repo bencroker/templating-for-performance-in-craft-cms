@@ -1,0 +1,20 @@
+{% set total = 1000 %}
+{% set perPage = 100 %}
+{% set related = 3 %}
+
+[
+    {% for i in 1..total %}
+        {
+            "title": "Article {{ i }}",
+            "order": {{ i }},
+            "relatedEntries": [
+                {% for j in 1..related if i + j + perPage <= total -%}
+                    "Article {{ i + j + perPage }}"
+                    {{- j != related and i + j + perPage < total ? ',' }}
+                {% endfor %}
+            ],
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        }
+        {{- not loop.last ? ',' }}
+    {% endfor %}
+]

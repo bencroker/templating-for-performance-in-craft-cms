@@ -1,0 +1,23 @@
+{% extends '_layout' %}
+{% set notes = [
+    'Memoize `entries`.',
+    'Remove `.count()`.',
+] %}
+
+{% set entryQuery = craft.entries.section('articles').orderBy('order asc').limit(10) %}
+{% set entries = entryQuery.all() %}
+
+
+{% block content %}
+
+    {% if entries|length %}
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    {{ entry.title }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}

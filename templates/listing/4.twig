@@ -1,0 +1,29 @@
+{% extends '_layout' %}
+{% set notes = [
+    'Output related entries (poorly).',
+] %}
+
+{% set entryQuery = craft.entries.section('articles').orderBy('order asc').limit(10) %}
+{% set entries = entryQuery.all() %}
+
+
+{% block content %}
+
+    {% if entries|length %}
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    {{ entry.title }}
+                    {% if entry.relatedEntries|length %}
+                        : is related to
+                        {% for relatedEntry in entry.relatedEntries %}
+                            {{ relatedEntry.title }}
+                            {{- not loop.last ? ',' }}
+                        {% endfor %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}

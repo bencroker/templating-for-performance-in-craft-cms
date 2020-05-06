@@ -1,0 +1,21 @@
+{% extends '_layout' %}
+{% set notes = [
+    'Output entries (using deprecated code).',
+] %}
+
+{% set entries = craft.entries.section('articles').orderBy('order asc').limit(10) %}
+
+
+{% block content %}
+
+    {% if entries|length %}
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    {{ entry.title }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}

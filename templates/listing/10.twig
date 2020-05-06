@@ -1,0 +1,40 @@
+{% extends '_layout' %}
+{% set notes = [
+    'Eager-load `relatedEntries` as well as their `relatedEntries`.',
+] %}
+
+{% set entryQuery = craft.entries
+    .section('articles')
+    .orderBy('order asc')
+    .limit(10)
+    .with('relatedEntries.relatedEntries')
+%}
+{% set entries = entryQuery.all() %}
+
+
+{% block content %}
+
+    {% if entries|length %}
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    {{ entry.title }}
+                    {% if entry.relatedEntries|length %}
+                        : is related to
+                        {% for relatedEntry in entry.relatedEntries %}
+                            {{ relatedEntry.id }}
+                            [
+                                {%- for deeplyRelatedEntry in relatedEntry.relatedEntries -%}
+                                    {{ deeplyRelatedEntry.id }}
+                                    {{- not loop.last ? ',' }}
+                                {%- endfor -%}
+                            ]
+                            {{- not loop.last ? ',' }}
+                        {% endfor %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}
