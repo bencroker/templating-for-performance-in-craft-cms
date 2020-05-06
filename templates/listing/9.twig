@@ -4,8 +4,10 @@
 ] %}
 
 {% set limit = craft.app.request.getParam('limit') ?? 10 %}
-{% set entryQuery = craft.entries.section('articles')
-    .orderBy('order asc').limit(limit)
+{% set entryQuery = craft.entries
+    .section('articles')
+    .orderBy('order asc')
+    .limit(limit)
     .with('relatedEntries')
 %}
 {% set entries = entryQuery.all() %}
@@ -17,7 +19,8 @@
         <ul>
             {% for entry in entries %}
                 <li>
-                    {{ entry.title }} →
+                    {{ entry.title }}
+                    {{ entry.relatedEntries|length ? '→' }}
                     {% for relatedEntry in entry.relatedEntries %}
                         {{ relatedEntry.id }} [
                         {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
@@ -33,7 +36,7 @@
 
     <p>
         <small>
-            Displaying {{ entries|length }} of {{ entryQuery.count() }}.
+            Showing {{ entries|length }} of {{ entryQuery.count() }}.
         </small>
     </p>
 
@@ -41,15 +44,15 @@
 
 
 {% set code = "
-{% set entryQuery = craft.entries.section('articles')
-    .orderBy('order asc').limit(limit)
+{% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ")
     .with('relatedEntries')
 %}
 {% set entries = entryQuery.all() %}
 
 {% if entries|length %}
     {% for entry in entries %}
-        {{ entry.title }} →
+        {{ entry.title }}
+        {{ entry.relatedEntries|length ? '→' }}
         {% for relatedEntry in entry.relatedEntries %}
             {{ relatedEntry.id }} [
             {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
@@ -61,5 +64,5 @@
     {% endfor %}
 {% endif %}
 
-Displaying {{ entries|length }} of {{ entryQuery.count() }}.
+Showing {{ entries|length }} of {{ entryQuery.count() }}.
 " %}

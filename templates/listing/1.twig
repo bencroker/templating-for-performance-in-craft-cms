@@ -4,8 +4,10 @@
 ] %}
 
 {% set limit = craft.app.request.getParam('limit') ?? 10 %}
-{% set entryQuery = craft.entries.section('articles')
-    .orderBy('order asc').limit(limit)
+{% set entryQuery = craft.entries
+    .section('articles')
+    .orderBy('order asc')
+    .limit(limit)
 %}
 
 
@@ -23,7 +25,7 @@
 
     <p>
         <small>
-            Displaying {{ entryQuery|length }} entries.
+            Showing {{ entryQuery|length }} entries.
         </small>
     </p>
 
@@ -31,9 +33,7 @@
 
 
 {% set code = "
-{% set entryQuery = craft.entries.section('articles')
-    .orderBy('order asc').limit(limit)
-%}
+{% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ") %}
 
 {% if entryQuery|length %}
     <ul>
@@ -45,5 +45,5 @@
     </ul>
 {% endif %}
 
-Displaying {{ entryQuery|length }} entries.
+Showing {{ entryQuery|length }} entries.
 " %}
