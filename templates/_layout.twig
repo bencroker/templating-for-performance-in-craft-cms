@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
+{% set step = craft.app.request.segment(2) %}
+
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8" />
-    <title>Listing</title>
+    <title>Listing {{ step }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="referrer" content="origin-when-cross-origin" />
     <style>
@@ -29,7 +32,6 @@
 
         h2 {
             margin-top: 24px;
-            font-size: 1em;
         }
 
         h2:first-child {
@@ -137,7 +139,6 @@
         @media (min-width:768px) and (min-height: 376px) {
             body {
                 background-color: hsl(212, 50%, 93%);
-                {#background-image: url("{{ view.getAssetManager().getPublishedUrl('@app/web/assets/installer/dist', true, 'images/installer-bg.png') }}");#}
                 background-repeat: no-repeat;
                 background-size: cover;
                 background-position: center center;
@@ -175,13 +176,12 @@
             <div class="content">
 
                 <h1>
-                    {% set step = craft.app.request.segment(2) %}
                     {{ step }}.
                     <div class="float-right">
                         {% if step > 0 %}
                             <a href="{{ step - 1 }}" class="go back"></a>
                         {% endif %}
-                        {% if step < 10 %}
+                        {% if step < 12 %}
                             <a href="{{ step + 1 }}" class="go"></a>
                         {% endif %}
                     </div>

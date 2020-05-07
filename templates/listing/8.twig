@@ -19,7 +19,6 @@
             {% for entry in entries %}
                 <li>
                     {{ entry.title }}
-                    {{ entry.relatedEntries|length ? '→' }}
                     {% for relatedEntry in entry.relatedEntries.all() %}
                         {{ relatedEntry.id }} [
                         {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
@@ -49,7 +48,6 @@
 {% if entries|length %}
     {% for entry in entries %}
         {{ entry.title }}
-        {{ entry.relatedEntries|length ? '→' }}
         {% for relatedEntry in entry.relatedEntries.all() %}
             {{ relatedEntry.id }} [
             {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
