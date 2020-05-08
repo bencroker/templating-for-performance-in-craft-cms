@@ -1,6 +1,6 @@
 {% extends '_layout' %}
 {% set notes = [
-    'Eager-load `relatedEntries` as well as their `relatedEntries`.',
+    'Eager-load `relatedEntries`.',
 ] %}
 
 {% set limit = craft.app.request.getParam('limit') ?? 10 %}
@@ -8,7 +8,7 @@
     .section('articles')
     .orderBy('order asc')
     .limit(limit)
-    .with('relatedEntries.relatedEntries')
+    .with('relatedEntries')
 %}
 {% set entries = entryQuery.all() %}
 
@@ -23,7 +23,7 @@
                     {{ entry.relatedEntries|length ? '→' }}
                     {% for relatedEntry in entry.relatedEntries %}
                         {{ relatedEntry.id }} [
-                        {%- for deeplyRelatedEntry in relatedEntry.relatedEntries -%}
+                        {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
                             {{ deeplyRelatedEntry.id }}
                             {{- not loop.last ? ',' }}
                         {%- endfor -%}
@@ -45,7 +45,7 @@
 
 {% set code = "
 {% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ")
-    .with('relatedEntries.relatedEntries')
+    .with('relatedEntries')
 %}
 {% set entries = entryQuery.all() %}
 
@@ -55,7 +55,7 @@
         {{ entry.relatedEntries|length ? '→' }}
         {% for relatedEntry in entry.relatedEntries %}
             {{ relatedEntry.id }} [
-            {%- for deeplyRelatedEntry in relatedEntry.relatedEntries -%}
+            {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
                 {{ deeplyRelatedEntry.id }}
                 {{- not loop.last ? ',' }}
             {%- endfor -%}

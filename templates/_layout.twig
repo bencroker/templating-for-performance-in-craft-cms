@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
+{% set totalSteps = 13 %}
 {% set step = craft.app.request.segment(2) %}
 
 <head>
@@ -181,7 +182,7 @@
                         {% if step > 0 %}
                             <a href="{{ step - 1 }}" class="go back"></a>
                         {% endif %}
-                        {% if step < 12 %}
+                        {% if step < totalSteps %}
                             <a href="{{ step + 1 }}" class="go"></a>
                         {% endif %}
                     </div>

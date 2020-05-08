@@ -1,6 +1,7 @@
 {% extends '_layout' %}
 {% set notes = [
-    'Output related entries (poorly).',
+    'Memoize `entries`.',
+    'Remove `.count()` and fix number of displayed entries.',
 ] %}
 
 {% set limit = craft.app.request.getParam('limit') ?? 10 %}
@@ -19,11 +20,6 @@
             {% for entry in entries %}
                 <li>
                     {{ entry.title }}
-                    {{ entry.relatedEntries|length ? '→' }}
-                    {% for relatedEntry in entry.relatedEntries %}
-                        {{ relatedEntry.title }}
-                        {{- not loop.last ? ',' }}
-                    {% endfor %}
                 </li>
             {% endfor %}
         </ul>
@@ -45,11 +41,6 @@
 {% if entries|length %}
     {% for entry in entries %}
         {{ entry.title }}
-        {{ entry.relatedEntries|length ? '→' }}
-        {% for relatedEntry in entry.relatedEntries %}
-            {{ relatedEntry.title }}
-            {{- not loop.last ? ',' }}
-        {% endfor %}
     {% endfor %}
 {% endif %}
 

@@ -1,32 +1,68 @@
 {% extends '_layout' %}
+{% set notes = [
+    'Eager-load `relatedEntries` as well as their `relatedEntries`.',
+] %}
+
+{% set limit = craft.app.request.getParam('limit') ?? 10 %}
+{% set entryQuery = craft.entries
+    .section('articles')
+    .orderBy('order asc')
+    .limit(limit)
+    .with('relatedEntries.relatedEntries')
+%}
+{% set entries = entryQuery.all() %}
 
 
 {% block content %}
 
-    <h2>
-        <a href="https://docs.craftcms.com/v3/dev/eager-loading-elements.html">
-            Craft 3 Docs » Eager-Loading Elements
-        </a>
-    </h2>
-    <ul>
-        <li>Eager-Loading Multiple Sets of Elements</li>
-        <li>Eager-Loading Nested Sets of Elements</li>
-        <li>Eager-Loading Elements Related to Matrix Blocks</li>
-        <li>Eager-Loading Image Transform Indexes</li>
-    </ul>
+    {% if entries|length %}
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    {{ entry.title }}
+                    {{ entry.relatedEntries|length ? '→' }}
+                    {% for relatedEntry in entry.relatedEntries %}
+                        {{ relatedEntry.id }} [
+                        {%- for deeplyRelatedEntry in relatedEntry.relatedEntries -%}
+                            {{ deeplyRelatedEntry.id }}
+                            {{- not loop.last ? ',' }}
+                        {%- endfor -%}
+                        ]{{ not loop.last ? ',' }}
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p>
+        <small>
+            Showing {{ entries|length }} of {{ entryQuery.count() }}.
+        </small>
+    </p>
 
 {% endblock %}
 
 
 {% set code = "
-{% set entries = craft.entries.section('articles')
-    .with([
-        'relatedEntries.relatedEntries',
-        'matrixField.blockType:bannerImages',
-        ['heroImages', {
-            withTransforms: ['heroImage']
-        }],
-    ])
-    .all()
+{% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ")
+    .with('relatedEntries.relatedEntries')
 %}
+{% set entries = entryQuery.all() %}
+
+{% if entries|length %}
+    {% for entry in entries %}
+        {{ entry.title }}
+        {{ entry.relatedEntries|length ? '→' }}
+        {% for relatedEntry in entry.relatedEntries %}
+            {{ relatedEntry.id }} [
+            {%- for deeplyRelatedEntry in relatedEntry.relatedEntries -%}
+                {{ deeplyRelatedEntry.id }}
+                {{- not loop.last ? ',' }}
+            {%- endfor -%}
+            ]{{ not loop.last ? ',' }}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+Showing {{ entries|length }} of {{ entryQuery.count() }}.
 " %}

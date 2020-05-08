@@ -1,6 +1,6 @@
 {% extends '_layout' %}
 {% set notes = [
-    'Get crazy with inception (without eager-loading).',
+    'Eager-load `relatedEntries`.',
 ] %}
 
 {% set limit = craft.app.request.getParam('limit') ?? 10 %}
@@ -8,6 +8,7 @@
     .section('articles')
     .orderBy('order asc')
     .limit(limit)
+    .with('relatedEntries')
 %}
 {% set entries = entryQuery.all() %}
 
@@ -19,13 +20,10 @@
             {% for entry in entries %}
                 <li>
                     {{ entry.title }}
-                    {% for relatedEntry in entry.relatedEntries.all() %}
-                        {{ relatedEntry.id }} [
-                        {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
-                            {{ deeplyRelatedEntry.id }}
-                            {{- not loop.last ? ',' }}
-                        {%- endfor -%}
-                        ]{{ not loop.last ? ',' }}
+                    {{ entry.relatedEntries|length ? '→' }}
+                    {% for relatedEntry in entry.relatedEntries %}
+                        {{ relatedEntry.title }}
+                        {{- not loop.last ? ',' }}
                     {% endfor %}
                 </li>
             {% endfor %}
@@ -42,19 +40,18 @@
 
 
 {% set code = "
-{% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ") %}
+{% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ")
+    .with('relatedEntries')
+%}
 {% set entries = entryQuery.all() %}
 
 {% if entries|length %}
     {% for entry in entries %}
         {{ entry.title }}
-        {% for relatedEntry in entry.relatedEntries.all() %}
-            {{ relatedEntry.id }} [
-            {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
-                {{ deeplyRelatedEntry.id }}
-                {{- not loop.last ? ',' }}
-            {%- endfor -%}
-            ]{{ not loop.last ? ',' }}
+        {{ entry.relatedEntries|length ? '→' }}
+        {% for relatedEntry in entry.relatedEntries %}
+            {{ relatedEntry.title }}
+            {{- not loop.last ? ',' }}
         {% endfor %}
     {% endfor %}
 {% endif %}

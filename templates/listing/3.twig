@@ -1,7 +1,7 @@
 {% extends '_layout' %}
 {% set notes = [
-    'Memoize `entries`.',
-    'Remove `.count()` and fix number of displayed entries.',
+    'Rename `entries` to `entryQuery`.',
+    'Use correct element query methods (fix deprecated code).',
 ] %}
 
 {% set limit = craft.app.request.getParam('limit') ?? 10 %}
@@ -10,14 +10,13 @@
     .orderBy('order asc')
     .limit(limit)
 %}
-{% set entries = entryQuery.all() %}
 
 
 {% block content %}
 
-    {% if entries|length %}
+    {% if entryQuery.count() %}
         <ul>
-            {% for entry in entries %}
+            {% for entry in entryQuery.all() %}
                 <li>
                     {{ entry.title }}
                 </li>
@@ -27,7 +26,7 @@
 
     <p>
         <small>
-            Showing {{ entries|length }} of {{ entryQuery.count() }}.
+            Showing {{ entryQuery.all()|length }} of {{ entryQuery.count() }} entries.
         </small>
     </p>
 
@@ -36,13 +35,12 @@
 
 {% set code = "
 {% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ") %}
-{% set entries = entryQuery.all() %}
 
-{% if entries|length %}
-    {% for entry in entries %}
+{% if entryQuery.count() %}
+    {% for entry in entryQuery.all() %}
         {{ entry.title }}
     {% endfor %}
 {% endif %}
 
-Showing {{ entries|length }} of {{ entryQuery.count() }}.
+Showing {{ entryQuery.all()|length }} of {{ entryQuery.count() }}.
 " %}

@@ -1,13 +1,12 @@
 {% extends '_layout' %}
 {% set notes = [
-    'Output entries (using deprecated code).',
+    'Output entries (without using `limit`).',
 ] %}
 
 {% set limit = craft.app.request.getParam('limit') ?? 10 %}
 {% set entries = craft.entries
     .section('articles')
     .orderBy('order asc')
-    .limit(limit)
 %}
 
 
@@ -16,16 +15,18 @@
     {% if entries|length %}
         <ul>
             {% for entry in entries %}
-                <li>
-                    {{ entry.title }}
-                </li>
+                {% if loop.index <= limit %}
+                    <li>
+                        {{ entry.title }}
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
     {% endif %}
 
     <p>
         <small>
-            Showing {{ entries|length }} entries.
+            Showing {{ limit }} entries.
         </small>
     </p>
 
@@ -33,17 +34,19 @@
 
 
 {% set code = "
-{% set entries = craft.entries.section('articles').limit(" ~ limit ~ ") %}
+{% set entries = craft.entries.section('articles') %}
 
 {% if entries|length %}
     <ul>
         {% for entry in entries %}
-            <li>
-                {{ entry.title }}
-            </li>
+            {% if loop.index <= " ~ limit ~ " %}
+                <li>
+                    {{ entry.title }}
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
 {% endif %}
 
-Showing {{ entries|length }} entries.
+Showing " ~ limit ~ " entries.
 " %}
