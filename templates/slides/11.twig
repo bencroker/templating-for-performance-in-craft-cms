@@ -1,6 +1,6 @@
 {% extends '_layout' %}
 {% set notes = [
-    'Get crazy with inception (without eager-loading).',
+    'Eager-load `relatedEntries` as well as their `relatedEntries`.',
 ] %}
 
 {% set limit = craft.app.request.getParam('limit') ?? 10 %}
@@ -8,6 +8,7 @@
     .section('articles')
     .orderBy('order asc')
     .limit(limit)
+    .with('relatedEntries.relatedEntries')
 %}
 {% set entries = entryQuery.all() %}
 
@@ -19,10 +20,11 @@
             {% for entry in entries %}
                 <li>
                     {{ entry.title }}
-                    {% for relatedEntry in entry.relatedEntries.all() %}
+                    {{ entry.relatedEntries|length ? '→' }}
+                    {% for relatedEntry in entry.relatedEntries %}
                         {{ relatedEntry.id }} [
-                        {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
-                            {{ deeplyRelatedEntry.id }}
+                        {%- for distantEntry in relatedEntry.relatedEntries -%}
+                            {{ distantEntry.id }}
                             {{- not loop.last ? ',' }}
                         {%- endfor -%}
                         ]{{ not loop.last ? ',' }}
@@ -42,16 +44,19 @@
 
 
 {% set code = "
-{% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ") %}
+{% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ")
+    .with('relatedEntries.relatedEntries')
+%}
 {% set entries = entryQuery.all() %}
 
 {% if entries|length %}
     {% for entry in entries %}
         {{ entry.title }}
-        {% for relatedEntry in entry.relatedEntries.all() %}
+        {{ entry.relatedEntries|length ? '→' }}
+        {% for relatedEntry in entry.relatedEntries %}
             {{ relatedEntry.id }} [
-            {%- for deeplyRelatedEntry in relatedEntry.relatedEntries.all() -%}
-                {{ deeplyRelatedEntry.id }}
+            {%- for distantEntry in relatedEntry.relatedEntries -%}
+                {{ distantEntry.id }}
                 {{- not loop.last ? ',' }}
             {%- endfor -%}
             ]{{ not loop.last ? ',' }}

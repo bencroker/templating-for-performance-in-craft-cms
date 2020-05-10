@@ -9,8 +9,8 @@
         </a>
     </h2>
     <ul>
-        <li>Eager-Loading Multiple Sets of Elements</li>
         <li>Eager-Loading Nested Sets of Elements</li>
+        <li>Eager-Loading Multiple Sets of Elements</li>
         <li>Eager-Loading Elements Related to Matrix Blocks</li>
         <li>Eager-Loading Image Transform Indexes</li>
     </ul>
@@ -24,7 +24,7 @@
         'relatedEntries.relatedEntries',
         'matrixField.blockType:bannerImages',
         ['heroImages', {
-            withTransforms: ['heroImage']
+            withTransforms: ['heroTransform']
         }],
     ])
     .all()
