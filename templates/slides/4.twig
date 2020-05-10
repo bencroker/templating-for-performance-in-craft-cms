@@ -39,9 +39,13 @@
 {% set entries = entryQuery.all() %}
 
 {% if entries|length %}
-    {% for entry in entries %}
-        {{ entry.title }}
-    {% endfor %}
+    <ul>
+        {% for entry in entries %}
+            <li>
+                {{ entry.title }}
+            </li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
 Showing {{ entries|length }} of {{ entryQuery.count() }}.

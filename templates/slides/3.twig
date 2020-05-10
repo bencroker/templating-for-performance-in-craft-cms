@@ -37,9 +37,13 @@
 {% set entryQuery = craft.entries.section('articles').limit(" ~ limit ~ ") %}
 
 {% if entryQuery.count() %}
-    {% for entry in entryQuery.all() %}
-        {{ entry.title }}
-    {% endfor %}
+    <ul>
+        {% for entry in entryQuery.all() %}
+            <li>
+                {{ entry.title }}
+            </li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
 Showing {{ entryQuery.all()|length }} of {{ entryQuery.count() }}.
