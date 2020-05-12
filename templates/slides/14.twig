@@ -1,0 +1,43 @@
+{% extends '_layout' %}
+
+
+{% block content %}
+
+    <h2>
+        <a href="https://www.craftcodingchallenge.com/challenge-8-the-big-o-problem/">
+            Craft Coding Challenge #8 – The Big O Problem
+        </a>
+    </h2>
+
+    <p>
+        For each of the entries in a structure, output the the title of the entry and its ancestors in a breadcrumb manner.
+    </p>
+    <p>
+        <img src="https://www.craftcodingchallenge.com/assets/images/big-o-notation-illustrated.jpg" width="70%">
+    </p>
+
+{% endblock %}
+
+
+{% set code = "
+{# Given the following structure: #}
+
+Entry 1
+    Entry 2
+        Entry 3
+        Entry 4
+    Entry 5
+Entry 6
+    Entry 7
+
+
+{# The output should be: #}
+
+Entry 1
+Entry 1 > Entry 2
+Entry 1 > Entry 2 > Entry 3
+Entry 1 > Entry 2 > Entry 4
+Entry 1 > Entry 5
+Entry 6
+Entry 6 > Entry 7
+" %}
