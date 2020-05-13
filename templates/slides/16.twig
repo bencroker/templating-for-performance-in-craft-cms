@@ -1,0 +1,21 @@
+{% extends '_layout' %}
+
+
+{% block content %}
+
+    <h2>
+        <a href="https://github.com/craftcms/nitro/blob/develop/BLACKFIRE.md">Blackfire Profiler (with Nitro) »</a>
+    </h2>
+
+    <p>
+        <img src="https://blackfire.io/docs/blackfire-interface.png" width="100%">
+    </p>
+
+{% endblock %}
+
+
+{% set code = "
+nitro ssh
+
+sudo blackfire-agent --register
+" %}
