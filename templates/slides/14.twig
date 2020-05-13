@@ -4,40 +4,34 @@
 {% block content %}
 
     <h2>
-        <a href="https://www.craftcodingchallenge.com/challenge-8-the-big-o-problem/">
-            Craft Coding Challenge #8 – The Big O Problem
-        </a>
+        <a href="https://github.com/putyourlightson/craft-elements-panel">Elements Panel Plugin</a>
     </h2>
+    <p>
+        Reports opportunities for eager-loading elements in the debug toolbar
+        <br>
+        (for currently viewed page only).
+    </p>
 
+    <br>
+
+    <h2>
+        <a href="https://putyourlightson.com/plugins/blitz">Blitz Plugin</a>
+    </h2>
     <p>
-        For each of the entries in a structure, output the the title of the entry and its ancestors in a breadcrumb manner.
+        Reports opportunities for eager-loading elements in the <code>blitz.log</code> file
+        <br>
+        (for all cached pages).
     </p>
-    <p>
-        <img src="https://www.craftcodingchallenge.com/assets/images/big-o-notation-illustrated.jpg" width="70%">
-    </p>
+
 
 {% endblock %}
 
 
 {% set code = "
-{# Given the following structure: #}
-
-Entry 1
-    Entry 2
-        Entry 3
-        Entry 4
-    Entry 5
-Entry 6
-    Entry 7
-
-
-{# The output should be: #}
-
-Entry 1
-Entry 1 > Entry 2
-Entry 1 > Entry 2 > Entry 3
-Entry 1 > Entry 2 > Entry 4
-Entry 1 > Entry 5
-Entry 6
-Entry 6 > Entry 7
+2020-05-13 02:37:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page1]
+2020-05-13 02:38:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page2]
+2020-05-13 02:39:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page3]
+2020-05-13 02:41:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page4]
+2020-05-13 02:42:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page5]
+2020-05-13 02:43:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page6]
 " %}
