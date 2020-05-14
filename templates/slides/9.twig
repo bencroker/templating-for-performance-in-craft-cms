@@ -19,10 +19,11 @@
             {% for entry in entries %}
                 <li>
                     {{ entry.title }}
+                    {{ entry.relatedEntries.count() ? '→' }}
                     {% for relatedEntry in entry.relatedEntries.all() %}
                         {{ relatedEntry.id }} [
-                        {%- for distantEntry in relatedEntry.relatedEntries.all() -%}
-                            {{ distantEntry.id }}
+                        {%- for cousin in relatedEntry.relatedEntries.all() -%}
+                            {{ cousin.id }}
                             {{- not loop.last ? ',' }}
                         {%- endfor -%}
                         ]{{ not loop.last ? ',' }}
@@ -48,10 +49,11 @@
 {% if entries|length %}
     {% for entry in entries %}
         {{ entry.title }}
+        {{ entry.relatedEntries.count() ? '→' }}
         {% for relatedEntry in entry.relatedEntries.all() %}
             {{ relatedEntry.id }} [
-            {%- for distantEntry in relatedEntry.relatedEntries.all() -%}
-                {{ distantEntry.id }}
+            {%- for cousin in relatedEntry.relatedEntries.all() -%}
+                {{ cousin.id }}
                 {{- not loop.last ? ',' }}
             {%- endfor -%}
             ]{{ not loop.last ? ',' }}

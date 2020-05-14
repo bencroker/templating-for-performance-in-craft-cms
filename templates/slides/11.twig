@@ -23,8 +23,8 @@
                     {{ entry.relatedEntries|length ? '→' }}
                     {% for relatedEntry in entry.relatedEntries %}
                         {{ relatedEntry.id }} [
-                        {%- for distantEntry in relatedEntry.relatedEntries -%}
-                            {{ distantEntry.id }}
+                        {%- for cousin in relatedEntry.relatedEntries -%}
+                            {{ cousin.id }}
                             {{- not loop.last ? ',' }}
                         {%- endfor -%}
                         ]{{ not loop.last ? ',' }}
@@ -55,8 +55,8 @@
         {{ entry.relatedEntries|length ? '→' }}
         {% for relatedEntry in entry.relatedEntries %}
             {{ relatedEntry.id }} [
-            {%- for distantEntry in relatedEntry.relatedEntries -%}
-                {{ distantEntry.id }}
+            {%- for cousin in relatedEntry.relatedEntries -%}
+                {{ cousin.id }}
                 {{- not loop.last ? ',' }}
             {%- endfor -%}
             ]{{ not loop.last ? ',' }}

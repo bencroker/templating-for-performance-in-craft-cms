@@ -4,34 +4,18 @@
 {% block content %}
 
     <h2>
-        <a href="https://github.com/putyourlightson/craft-elements-panel">Elements Panel Plugin »</a>
+        <a href="https://github.com/craftcms/nitro/blob/develop/BLACKFIRE.md">Blackfire Profiler (with Nitro) »</a>
     </h2>
-    <p>
-        Reports opportunities for eager-loading elements in the debug toolbar
-        <br>
-        (for currently viewed page only).
+
+    <p class="text-center">
+        <img src="https://blackfire.io/docs/blackfire-interface.png" width="90%">
     </p>
-
-    <br>
-
-    <h2>
-        <a href="https://putyourlightson.com/plugins/blitz">Blitz Plugin »</a>
-    </h2>
-    <p>
-        Reports opportunities for eager-loading elements in the <code>blitz.log</code> file
-        <br>
-        (for all cached pages).
-    </p>
-
 
 {% endblock %}
 
 
 {% set code = "
-2020-05-13 02:37:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page1]
-2020-05-13 02:38:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page2]
-2020-05-13 02:39:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page3]
-2020-05-13 02:41:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page4]
-2020-05-13 02:42:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page5]
-2020-05-13 02:43:16 [][][info] An opportunity to eager-load elements was detected. [http://craft35.nitro/page6]
+nitro ssh
+
+sudo blackfire-agent --register
 " %}
