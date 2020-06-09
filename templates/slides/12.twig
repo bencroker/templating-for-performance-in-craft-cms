@@ -15,6 +15,32 @@
         <li>Eager-Loading Image Transform Indexes</li>
     </ul>
 
+    <br><br>
+
+    <h3>
+        Eager load sub-elements of auto-injected elements.
+        <br>
+        <a href="https://docs.craftcms.com/api/v3/craft-services-elements.html#method-eagerloadelements">
+            <code>craft.app.elements.eagerLoadElements</code>
+        </a>
+    </h3>
+
+    <p>
+        <a href="https://plugins.craftcms.com/eager-beaver">
+            Eager Beaver Plugin »
+        </a>
+        <br>
+        <em>by nystudio107</em>
+    </p>
+
+    <p>
+        <a href="https://nystudio107.com/blog/speed-up-your-craft-cms-templates-with-eager-loading">
+            Speed up your Craft CMS Templates with Eager Loading »
+        </a>
+        <br>
+        <em>by Andrew Welch (5 min. read)</em>
+    </p>
+
 {% endblock %}
 
 
@@ -29,4 +55,19 @@
     ])
     .all()
 %}
+
+
+{# Eager load sub-elements of auto-injected elements #}
+
+{# Natively in Craft 3 #}
+{% do craft.app.elements.eagerLoadElements(
+    className(entry),
+    [entry],
+    ['relatedEntries.relatedEntries']
+) %}
+
+{# Eager Beaver Plugin #}
+{% do eagerLoadElements(entry, [
+    'relatedEntries.relatedEntries'
+]) %}
 " %}

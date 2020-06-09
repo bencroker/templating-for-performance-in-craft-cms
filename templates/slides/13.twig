@@ -4,55 +4,27 @@
 {% block content %}
 
     <h2>
-        <a href="https://docs.craftcms.com/api/v3/craft-services-elements.html#method-eagerloadelements">
-            <code>craft.app.elements.eagerLoadElements</code>
-        </a>
+        <a href="https://github.com/putyourlightson/craft-elements-panel">Elements Panel Plugin »</a>
     </h2>
-    <h3>Arguments</h3>
-    <ul>
-        <li>
-            <code>$elementType</code> – The root element type class
-        </li>
-        <li>
-            <code>$elements</code> – The root element models that should be updated with the eager-loaded elements
-        </li>
-        <li>
-            <code>$with</code> – Dot-delimited paths of the elements that should be eager-loaded into the root elements
-        </li>
-    </ul>
+    <p>
+        Reports opportunities for eager-loading elements in the debug toolbar.
+    </p>
 
     <br>
 
+    <h2>
+        <a href="https://github.com/putyourlightson/craft-blitz-recommendations">Blitz Recommendations Plugin »</a>
+    </h2>
     <p>
-        <a href="https://plugins.craftcms.com/eager-beaver">
-            Eager Beaver Plugin »
-        </a>
-        <br>
-        <em>by nystudio107</em>
+        Adds a utility that provides templating performance recommendations.
+    </p>
+    <p class="text-center">
+        <img src="https://raw.githubusercontent.com/putyourlightson/craft-blitz-recommendations/v1/docs/blitz-recommendations.png" width="90%">
     </p>
 
-    <p>
-        <a href="https://nystudio107.com/blog/speed-up-your-craft-cms-templates-with-eager-loading">
-            Speed up your Craft CMS Templates with Eager Loading »
-        </a>
-        <br>
-        <em>by Andrew Welch (5 min. read)</em>
-    </p>
 
 {% endblock %}
 
 
 {% set code = "
-{# Natively in Craft 3 #}
-{% do craft.app.elements.eagerLoadElements(
-    className(entry),
-    [entry],
-    ['relatedEntries.relatedEntries']
-) %}
-
-
-{# Eager Beaver Plugin #}
-{% do eagerLoadElements(entry, [
-    'relatedEntries.relatedEntries'
-]) %}
 " %}

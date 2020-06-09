@@ -1,6 +1,6 @@
 # Templating for Performance in Craft CMS
 
-A set of templates that demonstrate poor vs. good practices when outputting lists of entries in templates.
+A set of templates that demonstrate good vs. poor practices when outputting elements in templates.
 
 ## Requirements
 
