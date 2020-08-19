@@ -2,6 +2,8 @@
 
 A set of templates that demonstrate good vs. poor practices when outputting elements in templates.
 
+Watch the presentation at https://youtu.be/RGK1JHDxHhY.
+
 ## Requirements
 
 Craft CMS 3.0.0 or later.
